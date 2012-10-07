@@ -27,17 +27,19 @@ package
 		private var _video:Video = new Video();
 		private var _stream:NetStream;
 		private var _connection:NetConnection;
+		
 		private var _url:String = "bunny";
 		private var _position:Number;
+		
 		private var _urlObject:Object = new Object();
-		private var _urlForXmooveObject:Object = new Object();
+		
 		private var _seeking:Boolean = false;
 		
 		public function VideoPlayer() 
 		{
 			var sprite:Sprite = new Sprite();
 			sprite.graphics.beginFill(0x000000, 1);
-			sprite.graphics.drawRect(0, 0, 613, 344);
+			sprite.graphics.drawRect(0, 0, App.PLAYER_WIDTH, App.PLAYER_HEIGHT);
 			sprite.graphics.endFill();
 			addChild(sprite);
 		}
@@ -84,26 +86,7 @@ package
 			_urlObject[App.QUALITY_LOW] = low;
 			_urlObject[App.QUALITY_NORM] = norm;
 			_urlObject[App.QUALITY_HIGH] = high;
-			
 			_urlObject[App.RTMP_CONNECTION_URL] = rtmp;
-			
-			var tmpArr:Array = low.split("/");
-			tmpArr.shift();
-			tmpArr.shift();
-			tmpArr.shift();
-			_urlForXmooveObject[App.QUALITY_LOW] = tmpArr.join("/");
-			
-			tmpArr = norm.split("/");
-			tmpArr.shift();
-			tmpArr.shift();
-			tmpArr.shift();
-			_urlForXmooveObject[App.QUALITY_NORM] = tmpArr.join("/");
-			
-			tmpArr = high.split("/");
-			tmpArr.shift();
-			tmpArr.shift();
-			tmpArr.shift();
-			_urlForXmooveObject[App.QUALITY_HIGH] = tmpArr.join("/");
 		}
 		
 		private function onInterfaceListener(e:InterfaceEvent):void 
@@ -111,9 +94,6 @@ package
 			if (!e.object) {
 				return;
 			}
-			
-			//trace(e.object.quality);
-			
 			var option:String = "";
 			var length:int = Interface.EVENT_OPTIONS_ARRAY.length;
 			for (var i:int = 0; i < length; i++) {
@@ -193,63 +173,6 @@ package
 				
 				_stream.seek(keyframe.time);
 			}
-		}
-		
-		public function StartPlayingCutedVideo():void
-		{
-			var string:String = MakeURL(null);
-			_stream.close();
-			_stream.play(string);
-			_stream.bufferTime = 5;
-			App.cutVideo_metaDataReceived = false;
-		}
-		
-		private function MakeURL(kf:Keyframe):String 
-		{
-			//trace(kf.bytes, kf.time);
-			if (kf != null) {
-				//trace("http://vgtrk.vpn.kay-com.net/xmoov.php?file=" + String(_urlForXmooveObject[App.Quality]) + "&start=" + String(kf.bytes));
-				return App.PathToXMOOVE + "?file=" + String(_urlForXmooveObject[App.Quality]) + "&start=" + String(kf.bytes);
-			}
-			
-			var time:Number = App.cutVideo_offset_seconds;
-			var offset:int = 1000;
-			var totalKey:Number;
-			
-			var keyframe:Keyframe;
-			var length:int = App.keyframesArray.length;
-			var kf:Keyframe;
-			for (var i:int = 0; i < length; i++ ) {
-				kf = App.keyframesArray[i];
-				if (time > kf.time)
-				{ 
-					if ((time - kf.time) < offset) 
-					{
-						offset = (time - kf.time);
-						keyframe = kf;
-					} 
-				} 
-				else {
-					break;
-				}
-			} 
-			
-			App.cutVideo_offset_seconds = keyframe.time;
-			
-			var file:String = _urlForXmooveObject[App.Quality];
-			
-			return App.PathToXMOOVE + "?file=" + file + "&start=" + String(keyframe.bytes);
-		}
-		
-		private function SeekWithCuttingFileTo(kf:Keyframe):void 
-		{
-			App.isCutedVideoLoaded = true;
-			App.cutVideo_offset_seconds = kf.time;
-			App.cutVideo_offset_bytes = kf.bytes;
-			var string:String = MakeURL(kf);
-			_stream.close();
-			_stream.play(string);
-			_stream.pause();
 		}
 		
 		private function SeekWithoutCuttingFileTo(arg:Number):void 
