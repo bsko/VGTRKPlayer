@@ -14,6 +14,8 @@ package
 	import flash.system.Capabilities;
 	import flash.utils.getTimer;
 	import flash.utils.Timer;
+	import events.*;
+	import subtitleThings.*;
 	/**
 	 * ...
 	 * @author ...

@@ -1,5 +1,6 @@
-package  
+package  subtitleThings
 {
+	import events.SubtitlesLoaded;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
@@ -8,7 +9,7 @@ package
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.utils.Timer;
-	import SubtitleThings.Subtitle;
+	import subtitleThings.Subtitle;
 	/**
 	 * ...
 	 * @author iam

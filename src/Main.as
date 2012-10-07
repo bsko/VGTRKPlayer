@@ -23,6 +23,8 @@ package
 	import flash.system.Security;
 	import flash.text.TextField;
 	import flash.utils.Timer;
+	import events.*;
+	import subtitleThings.*;
 	/**
 	 * ...
 	 * @author iam

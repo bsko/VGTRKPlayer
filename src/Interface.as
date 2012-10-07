@@ -1,5 +1,6 @@
 package  
 {
+	import events.*;
 	import flash.display.MovieClip;
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
@@ -12,7 +13,7 @@ package
 	import flash.geom.Rectangle;
 	import flash.text.TextField;
 	import flash.utils.Timer;
-	import SubtitleThings.Subtitle;
+	import subtitleThings.*;
 	/**
 	 * ...
 	 * @author ...

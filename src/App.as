@@ -3,6 +3,7 @@ package
 	import flash.display.Stage;
 	import flash.media.Video;
 	import flash.net.NetStream;
+	import subtitleThings.SubtitleLoader;
 	/**
 	 * ...
 	 * @author ...
@@ -48,7 +49,6 @@ package
 		
 		public static var goto:int;
 		public static var keyframesArray:Array = [];
-		public static var journal:NetStreamJournal = new NetStreamJournal();
 		public static var isSeeking:Boolean = false;
 		public static var isBuffering:Boolean = false;
 		public static var isQualityChanged:Boolean = false;

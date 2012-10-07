@@ -1,6 +1,8 @@
 package  
 {
 	import flash.display.Sprite;
+	import events.*;
+	import subtitleThings.*;
 	/**
 	 * ...
 	 * @author iam
