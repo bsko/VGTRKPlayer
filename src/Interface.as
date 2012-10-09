@@ -174,7 +174,7 @@ package
 		
 		private function onUpdateBufferingMovie(e:Event):void 
 		{
-			if (App.isBuffering) {
+			if (App.isBuffering && App.firstStart) {
 				if (!_bufferingBar.visible) {
 					_bufferingBar.visible = true;
 					_bufferingBar.play();
@@ -431,8 +431,11 @@ package
 					break;
 				}
 			} 
-			//trace(keyframe.time, keyframe.bytes);
 			App.isSeeking = true;
+			if (keyframe == null) {
+				keyframe = new Keyframe();
+				keyframe.time = time;
+			}
 			dispatchEvent(new InterfaceEvent(InterfaceEvent.INTERFACE_EVENT, false, false, { seek:keyframe } ));
 			App.controller.Init();
 		}
@@ -643,120 +646,75 @@ package
 					if ((e.target as MovieClip).parent.name == "seekbutton") {
 						
 						var mc:MovieClip = e.currentTarget as MovieClip;
-						var cur_part:Number = (e.localX / BAR_WIDTH);
-						
-						var bytes_offset:Number = 0;
-						if (App.isCutedVideoLoaded) {
-							bytes_offset += App.cutVideo_offset_bytes;
-						} else {
-							App.cutVideo_offset_bytes = 0;
-							App.cutVideo_offset_seconds = 0;
-							App.cutVideo_part = 0;
-						}
-						
-						if (App.isCutedVideoLoaded && App.cutVideo_part > cur_part) {
-							App.isNeedToCutFile = true; 
-							App.cutVideo_isBuffering = true;
-						}
-						else if (App.video_stream.bytesTotal * (cur_part + bytes_offset) < App.video_stream.bytesLoaded) {
-							App.isNeedToCutFile = false;
-							App.cutVideo_isBuffering = false;
-							if (App.isCutedVideoLoaded)
-							{
-								SearchOnCuttedVideoAndDispatchSeek(cur_part);
-								return
-							}	
-						} else {
-							App.isNeedToCutFile = true;
-							App.cutVideo_isBuffering = true;
-							App.cutVideo_part = cur_part;
-						}
-						
-						var time:Number = cur_part * App.video_duration;
-						var offset:int = 1000;
-						var keyframe:Keyframe;
-						var length:int = App.keyframesArray.length;
-						var kf:Keyframe;
-						for (var i:int = 0; i < length; i++ ) {
-							kf = App.keyframesArray[i];
-							if (time > kf.time)
-							{ 
-								if ((time - kf.time) < offset) 
-								{
-									offset = (time - kf.time);
-									keyframe = kf;
-								} 
-							} 
-							else {
-								break;
-							}
-						} 
-						
-						App.isSeeking = true;
-						dispatchEvent(new InterfaceEvent(InterfaceEvent.INTERFACE_EVENT, false, false, { seek:keyframe } ));
-						App.controller.Init();
+						var cur_part:Number = (e.localX / BAR_WIDTH);	
 					}
 				}
-			}
-			else if (e.currentTarget is ProgressBar) {
+			} else if (e.currentTarget is ProgressBar) {
 				mc = e.currentTarget as MovieClip;
 				
 				cur_part = (e.localX / BAR_WIDTH);
-						
-				bytes_offset = 0;
-				if (App.isCutedVideoLoaded) {
-					bytes_offset += App.cutVideo_offset_bytes;
-				} else {
-					App.cutVideo_offset_bytes = 0;
-					App.cutVideo_offset_seconds = 0;
-					App.cutVideo_part = 0;
-				}
-				
-				if (App.cutVideo_part < cur_part) {
-					App.isNeedToCutFile = true; 
-					App.cutVideo_isBuffering = true;
-				}
-				else if (App.video_stream.bytesTotal * (cur_part + bytes_offset) < App.video_stream.bytesLoaded) {
-					App.isNeedToCutFile = false;
-					App.cutVideo_isBuffering = false;
-					if (App.isCutedVideoLoaded)
-					{
-						SearchOnCuttedVideoAndDispatchSeek(cur_part);
-						return
-					}
-					
-				} else {
-					App.isNeedToCutFile = true;
-					App.cutVideo_isBuffering = true;
-					App.cutVideo_part = cur_part;
-				}
-				
-				time = cur_part * App.video_duration;
-				offset = 1000;
-				
-				length = App.keyframesArray.length;
-				for (i = 0; i < length; i++ ) {
-					kf = App.keyframesArray[i];
-					if (time > kf.time)
-					{ 
-						if ((time - kf.time) < offset) 
-						{
-							offset = (time - kf.time);
-							keyframe = kf;
-						} 
-					} 
-					else {
-						break;
-					}
-				} 
-				
-				App.isSeeking = true;
-				dispatchEvent(new InterfaceEvent(InterfaceEvent.INTERFACE_EVENT, false, false, { seek:keyframe } ));
-				App.controller.Init();
+			} else {
+				return;
 			}
+			var bytes_offset:Number = 0;
+		
+			/*if (App.isCutedVideoLoaded) {
+				bytes_offset += App.cutVideo_offset_bytes;
+			} else {
+				App.cutVideo_offset_bytes = 0;
+				App.cutVideo_offset_seconds = 0;
+				App.cutVideo_part = 0;
+			}*/
+			
+			/*if (App.isCutedVideoLoaded && App.cutVideo_part > cur_part) {
+				App.isNeedToCutFile = true; 
+				App.cutVideo_isBuffering = true;
+			}
+			else if (App.video_stream.bytesTotal * (cur_part + bytes_offset) < App.video_stream.bytesLoaded) {
+				App.isNeedToCutFile = false;
+				App.cutVideo_isBuffering = false;
+				if (App.isCutedVideoLoaded)
+				{
+					SearchOnCuttedVideoAndDispatchSeek(cur_part);
+					return
+				}	
+			} else {
+				App.isNeedToCutFile = true;
+				App.cutVideo_isBuffering = true;
+				App.cutVideo_part = cur_part;
+			}*/
+			
+			var time:Number = cur_part * App.video_duration;
+			var offset:int = 1000;
+			var keyframe:Keyframe;
+			var length:int = App.keyframesArray.length;
+			var kf:Keyframe;
+			for (var i:int = 0; i < length; i++ ) {
+				kf = App.keyframesArray[i];
+				if (time > kf.time)
+				{ 
+					if ((time - kf.time) < offset) 
+					{
+						offset = (time - kf.time);
+						keyframe = kf;
+					} 
+				} 
+				else {
+					break;
+				}
+			} 
+			
+			App.isSeeking = true;
+			
+			if (keyframe == null) {
+				keyframe = new Keyframe();
+				keyframe.time = int(time);
+			}
+			dispatchEvent(new InterfaceEvent(InterfaceEvent.INTERFACE_EVENT, false, false, { seek:keyframe } ));
+			App.controller.Init();
 		}
 		
-		private function SearchOnCuttedVideoAndDispatchSeek(cur_part:Number):void 
+		/*private function SearchOnCuttedVideoAndDispatchSeek(cur_part:Number):void 
 		{
 			var time:Number = cur_part * App.video_duration;
 			var offset:int = 1000;
@@ -782,7 +740,7 @@ package
 			App.isSeeking = true;
 			dispatchEvent(new InterfaceEvent(InterfaceEvent.INTERFACE_EVENT, false, false, { seek:keyframe } ));
 			App.controller.Init();
-		}
+		}*/
 		
 		private function onUpdateSeek(e:Event):void 
 		{
@@ -883,6 +841,7 @@ package
 				App.isPlaying = false;
 				_playpauseBtn.gotoAndStop("play");
 			} else {
+				App.firstStart = true;
 				dispatchEvent(new InterfaceEvent(InterfaceEvent.INTERFACE_EVENT, false, false, { play:true } ));
 				App.isPlaying = true;
 				_playpauseBtn.gotoAndStop("pause");

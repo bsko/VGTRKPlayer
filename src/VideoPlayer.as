@@ -120,7 +120,7 @@ package
 				case "stop":
 					
 				break;
-				case "seek":
+			case "seek":
 					SeekWithoutCuttingFileTo((e.object.seek as Keyframe).time);
 				break;
 				case "quality":
@@ -170,7 +170,7 @@ package
 					}
 				}
 				if (!keyframe) { keyframe = App.keyframesArray[0]; }
-				
+				if (!keyframe) { keyframe = new Keyframe(); keyframe.time = offsetTo; }
 				_stream.seek(keyframe.time);
 			}
 		}
@@ -209,6 +209,9 @@ package
 				case "NetStream.Buffer.Empty":
 					App.soundControll.Pause();
 					App.isNeedToSynchronize = true;
+					App.isBuffering = true;
+					break;
+				case "NetStream.Buffer.Flush":
 					App.isBuffering = true;
 					break;
 				case "NetStream.Play.Stop":

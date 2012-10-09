@@ -12,7 +12,7 @@ package
 	{
 		public static const ENG:int = 1001;
 		public static const RUS:int = 1002;
-		public static const LANGUAGE:int = RUS;
+		public static const LANGUAGE:int = ENG;
 
 		public static const SOUND_ENG:int = 101;
 		public static const SOUND_RUS:int = 102;
@@ -61,6 +61,8 @@ package
 		static public var isNeedToSynchronize:Boolean = false;
 		static public var streamIsWaitingForSound:Boolean;
 		static public var isPhotoPageOpen:Boolean = false;
+		
+		public static var firstStart:Boolean = false;
 	}
 
 }
