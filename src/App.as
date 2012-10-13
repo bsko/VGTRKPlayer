@@ -12,7 +12,7 @@ package
 	{
 		public static const ENG:int = 1001;
 		public static const RUS:int = 1002;
-		public static const LANGUAGE:int = ENG;
+		public static const LANGUAGE:int = RUS;
 
 		public static const SOUND_ENG:int = 101;
 		public static const SOUND_RUS:int = 102;

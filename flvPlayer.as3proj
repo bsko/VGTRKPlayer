@@ -4,7 +4,7 @@
   <output>
     <movie outputType="Application" />
     <movie input="" />
-    <movie path="bin\flvPlayer_en.swf" />
+    <movie path="bin\flvPlayer_ru.swf" />
     <movie fps="30" />
     <movie width="613" />
     <movie height="345" />
@@ -50,7 +50,7 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <element path="lib\last versions\library_en.swc" />
+    <element path="lib\last versions\library_ru.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

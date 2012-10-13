@@ -59,6 +59,8 @@ package
 		private var _changingVolume:Boolean = false;
 		private var _currentTimeTF:TextField;
 		private var _totalTimeTF:TextField;
+		private var _subtitlesBack:MovieClip;
+		private var _bigPlayBtn:SimpleButton;
 		
 		private var _draggedDown:Boolean = false;
 		private var _fs_dragmenu_timer:Timer = new Timer(2000);
@@ -83,6 +85,9 @@ package
 			_totalTimeTF = _interface.bottom_w_mc.totalTime;
 			_currentTimeTF.mouseEnabled = false;
 			_totalTimeTF.mouseEnabled = false;
+			_subtitlesBack = _interface.subtitlesBack;
+			_subtitlesBack.visible = false;
+			_bigPlayBtn = _interface.bigPlayBtn;
 			
 			if (App.LANGUAGE == App.ENG) {
 				App.Subtitles = App.SUBS_ENG;
@@ -130,6 +135,7 @@ package
 		public function Init():void 
 		{
 			_playpauseBtn.addEventListener(MouseEvent.CLICK, onPlayPause, false, 0, true);
+			_bigPlayBtn.addEventListener(MouseEvent.CLICK, onBigPlayBtnEvent, false, 0, true);
 			_soundBar.addEventListener(MouseEvent.MOUSE_DOWN, onChangeVolume, false, 0, true);
 			App.stage.addEventListener(MouseEvent.MOUSE_UP, onStopChangeVolume, false, 0, true);
 			_fullscreenBtn.addEventListener(MouseEvent.CLICK, onChangeScreenMode, false, 0, true);
@@ -138,6 +144,15 @@ package
 			App.subtitleLoader.addEventListener(SubtitlesLoaded.SUBTITLES_LOADED, onStartSubtitles, false, 0, true);
 			App.stage.addEventListener(FullScreenEvent.FULL_SCREEN, onUpdateInterfaceByScreenMode, false, 0, true);
 			addEventListener(Event.ENTER_FRAME, onUpdateBufferingMovie, false, 0, true);
+			if (!App.subtitleLoader.noSubsLoaded) {
+				_subtitlesBack.visible = true;
+			}
+		}
+		
+		private function onBigPlayBtnEvent(e:MouseEvent):void 
+		{
+			_bigPlayBtn.visible = false;
+			onPlayPause();
 		}
 		
 		private function onStopChangeVolume(e:MouseEvent = null):void 
@@ -262,6 +277,13 @@ package
 				_totalTimeTF = _interface.bottom_mc.totalTime;
 				_currentTimeTF.mouseEnabled = false;
 				_totalTimeTF.mouseEnabled = false;
+				_subtitlesBack = _interface.subtitlesBack;
+				if (!App.subtitleLoader.noSubsLoaded) {
+					_subtitlesBack.visible = true;
+				} else {
+					_subtitlesBack.visible = false;
+				}
+				_bigPlayBtn = _interface.bigPlayBtn;
 				
 				_sub_ru = _interface.upper_mc.sub_ru;
 				_sub_ru.addEventListener(MouseEvent.CLICK, onChangeSubtitles, false, 0, true);
@@ -335,6 +357,13 @@ package
 				_subtitleTextField.htmlText = "";
 				_watermark = _interface.centertext.text;
 				_watermark.text = _watermarkText;
+				_subtitlesBack = _interface.subtitlesBack;
+				if (!App.subtitleLoader.noSubsLoaded) {
+					_subtitlesBack.visible = true;
+				} else {
+					_subtitlesBack.visible = false;
+				}
+				_bigPlayBtn = _interface.bigPlayBtn;
 				
 				_currentTimeTF = _interface.bottom_w_mc.currentTime;
 				_totalTimeTF = _interface.bottom_w_mc.totalTime;

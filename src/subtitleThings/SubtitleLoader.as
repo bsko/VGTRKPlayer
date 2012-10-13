@@ -23,6 +23,8 @@ package  subtitleThings
 		private var _rusSubsURL:String;
 		private var _engSubsURL:String;
 		
+		private var _noSubsLoaded:Boolean = true;
+		
 		public function SubtitleLoader() 
 		{
 			
@@ -37,6 +39,11 @@ package  subtitleThings
 		{
 			_rusSubsURL = rusSubs;
 			_engSubsURL = engSubs;
+			if (_rusSubsURL == "#" && _engSubsURL == "#") {
+				_noSubsLoaded = true;
+			} else {
+				noSubsLoaded = false;
+			}
 			var timer:Timer = new Timer(2000);
 			timer.start();
 			timer.addEventListener(TimerEvent.TIMER, onSecure, false, 0, true);
@@ -124,6 +131,16 @@ package  subtitleThings
 			var qseconds:int = int(tmpseconds.split(",")[1]) + int(tmpseconds.split(",")[0]) * 1000;
 			var seconds:int = qseconds + int(array[1]) * 1000 * 60 + int(array[0]) * 60 * 60 * 1000;
 			return seconds;
+		}
+		
+		public function get noSubsLoaded():Boolean 
+		{
+			return _noSubsLoaded;
+		}
+		
+		public function set noSubsLoaded(value:Boolean):void 
+		{
+			_noSubsLoaded = value;
 		}
 	}
 

@@ -83,6 +83,11 @@ package
 		
 		public function LoadURLs(low:String, norm:String, high:String, rtmp:String):void 
 		{
+			trace(low.lastIndexOf("mp4"));
+			if (low.lastIndexOf("mp4") == 0) {
+				low += ".mp4";
+			}
+			trace(low);
 			_urlObject[App.QUALITY_LOW] = low;
 			_urlObject[App.QUALITY_NORM] = norm;
 			_urlObject[App.QUALITY_HIGH] = high;
@@ -177,6 +182,7 @@ package
 		
 		private function SeekWithoutCuttingFileTo(arg:Number):void 
 		{
+			trace(arg);
 			_stream.seek(arg);
 			_stream.pause();
 		}
