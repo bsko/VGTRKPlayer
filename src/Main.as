@@ -97,8 +97,8 @@ package
 			//var rtmp_connection:String = null;
 			//var lowquality:String = "flv:58/upload/video/download/site/rasputin_trailer/video/B-TWEEN_RASPOUTINE-TRAILER_169-177_1080psf24_FRESTENG_1011TVS5287_H264_496KB_for_site";
 			//var normquality:String = "flv:58/upload/video/download/site/rasputin_trailer/video/B-TWEEN_RASPOUTINE-TRAILER_169-177_1080psf24_FRESTENG_1011TVS5287_H264_496KB_for_site";
-			var lowquality:String = "mp4:58/upload/video/download/site/Ballet/BIG_BALET_CANNES_prores-_1Mbit_640x480.mp4";
-			var normquality:String = "mp4:58/upload/video/download/site/RUSSIAN SEASONS NACHO DUATO/Russkie_sezony_Nacho_Dauto_low.mp4";
+			var lowquality:String = "flv:58/upload/video/download/site/RIVERS. APOCALYPTIC PROJECT OF THE USSR/Rivers_apacalypse_496Kb.flv";
+			var normquality:String = "flv:58/upload/video/download/site/RIVERS. APOCALYPTIC PROJECT OF THE USSR/Rivers_apacalypse_896Kb";
 			var highquality:String = "flv:58/upload/video/Marshal_gukov_VP6_1328K_25p";
 			//var lowquality:String = "http://sales.vgtrk.com:80/upload/video/download/site/Agent_201/Agent_A-201-1s-_896_kb_s.flv";
 			//var normquality:String = "http://sales.vgtrk.com:80/upload/video/download/site/Agent_201/Agent_A-201-1s-_896_kb_s.flv";

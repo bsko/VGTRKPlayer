@@ -12,7 +12,7 @@ package
 	{
 		public static const ENG:int = 1001;
 		public static const RUS:int = 1002;
-		public static const LANGUAGE:int = RUS;
+		public static const LANGUAGE:int = ENG;
 
 		public static const SOUND_ENG:int = 101;
 		public static const SOUND_RUS:int = 102;
@@ -23,7 +23,9 @@ package
 		public static const QUALITY_NORM:int = 107;
 		public static const QUALITY_HIGH:int = 108;
 		public static const RTMP_CONNECTION_URL:int = 109;
+		//public static const PLAYER_WIDTH:int = 742;
 		public static const PLAYER_WIDTH:int = 614;
+		//public static const PLAYER_HEIGHT:int = 470;
 		public static const PLAYER_HEIGHT:int = 345;
 		
 		public static var PathToXMOOVE:String;
@@ -63,6 +65,13 @@ package
 		static public var isPhotoPageOpen:Boolean = false;
 		
 		public static var firstStart:Boolean = false;
+		
+		public static function replaceAll(str:String, replaceWhat:String, replaceWith:String):String {
+			while (str.indexOf(replaceWhat) >= 0) {
+				str = str.replace(replaceWhat, replaceWith);
+			}
+			return str;
+		}
 	}
 
 }
