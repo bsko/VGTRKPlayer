@@ -76,6 +76,7 @@ package
 		
 		private function CheckIfContinue():void 
 		{
+			trace("check if continue");
 			if (_current_sound) {
 				if (((_position + 10000 < _current_sound.length) || (_current_sound.bytesTotal == _current_sound.bytesLoaded)) && _current_sound.bytesTotal != 0) {
 					dispatchEvent(new ControllerEvent(ControllerEvent.SOUND_READY));
@@ -87,6 +88,7 @@ package
 		
 		private function onCheckIfReady(e:Event):void 
 		{
+			trace("check if ready");
 			if (((_position + 10000 < _current_sound.length) || (_current_sound.bytesTotal == _current_sound.bytesLoaded)) && _current_sound.bytesTotal != 0) {
 				removeEventListener(Event.ENTER_FRAME, onCheckIfReady, false);
 				dispatchEvent(new ControllerEvent(ControllerEvent.SOUND_READY));
@@ -94,7 +96,7 @@ package
 		}
 		
 		public function Resume():void {
-			//Play();
+			Play();
 		}
 		
 		public function LoadURLS(rus:String, eng:String):void 
@@ -155,6 +157,7 @@ package
 		
 		private function SeekSoundTo(arg1:Number):void 
 		{
+			trace("seek sound to");
 			if (_noSound) {
 				return;
 			}
@@ -178,7 +181,7 @@ package
 			App.player_interface.ReadyToSeek();
 		}
 		
-		private function onTest(e:TimerEvent):void 
+		/*private function onTest(e:TimerEvent):void 
 		{
 			if(!_current_sound.isBuffering) {
 				_current_snd_channel = _current_sound.play((App.video_stream.time) * 1000, 0, _current_snd_transform);
@@ -186,35 +189,24 @@ package
 				(e.target as Timer).removeEventListener(TimerEvent.TIMER, onTest, false);
 				(e.target as Timer).reset();
 			}
-		}
+		}*/
 		
 		public function PlayAfterSeek():void 
 		{
+			trace("play after seek");
 			if (_noSound) {
 				return;
 			}
 			
 			var offset:Number = (App.isCutedVideoLoaded) ? App.cutVideo_offset_seconds : 0;
 			
-			if (_isSeeking)	{
-				
-				_isSeeking = false;
-				_current_snd_channel.stop();
-				_current_snd_channel = _current_sound.play((App.video_stream.time) * 1000);
-				_soundLoadingArray.length = 0;
-			} else if (_isQualityChanged) {
-				_isQualityChanged = false;
-				_current_snd_channel = _current_sound.play((App.video_stream.time) * 1000);
-				_soundLoadingArray.length = 0;
-			} else if (App.isNeedToSynchronize) {
-				App.isNeedToSynchronize = false;
-				_current_snd_channel = _current_sound.play((App.video_stream.time) * 1000);
-				_soundLoadingArray.length = 0;
-			}
+			_current_snd_channel = _current_sound.play((App.video_stream.time) * 1000);
+			_soundLoadingArray.length = 0;
 		}
 		
 		public function SeekTo(time:int = 0):void 
 		{
+			trace("seek to");
 			if (_noSound) {
 				return;
 			}
@@ -239,6 +231,7 @@ package
 		
 		public function Pause():void 
 		{
+			trace("pause");
 			if (_noSound) {
 				return;
 			}
@@ -256,7 +249,7 @@ package
 			if (_noSound) {
 				return;
 			}
-			
+			trace("play");
 			//if (_current_snd_channel) {
 				_current_snd_channel = _current_sound.play(_position, 0, _current_snd_transform);
 			//}
@@ -273,6 +266,7 @@ package
 		
 		public function playSound(startingTime:int = 0):void 
 		{
+			trace("play sound");
 			if (_urlObject[App.Sound] == "#") {
 				_noSound = true;
 				return;

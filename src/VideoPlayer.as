@@ -86,6 +86,16 @@ package
 			if (low.lastIndexOf("mp4") == 0) {
 				low += ".mp4";
 			}
+			if (norm.lastIndexOf("mp4") == 0) {
+				norm += ".mp4";
+			}
+			if (high.lastIndexOf("mp4") == 0) {
+				high += ".mp4";
+			}
+			
+			trace(low);			
+			trace(norm);
+			trace(high);
 			
 			_urlObject[App.QUALITY_LOW] = low;
 			_urlObject[App.QUALITY_NORM] = norm;

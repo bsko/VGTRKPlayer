@@ -118,8 +118,8 @@ package
 			
 			UpdateButtons();
 			
-			_interface.width = 613;
-			_interface.height = 342;
+			_interface.width = App.PLAYER_WIDTH;
+			_interface.height = App.PLAYER_HEIGHT;
 			
 			addChild(_upperMask);
 			addChild(_interface);
@@ -144,9 +144,6 @@ package
 			App.subtitleLoader.addEventListener(SubtitlesLoaded.SUBTITLES_LOADED, onStartSubtitles, false, 0, true);
 			App.stage.addEventListener(FullScreenEvent.FULL_SCREEN, onUpdateInterfaceByScreenMode, false, 0, true);
 			addEventListener(Event.ENTER_FRAME, onUpdateBufferingMovie, false, 0, true);
-			if (!App.subtitleLoader.noSubsLoaded) {
-				_subtitlesBack.visible = true;
-			}
 		}
 		
 		private function onBigPlayBtnEvent(e:MouseEvent):void 
@@ -278,11 +275,6 @@ package
 				_currentTimeTF.mouseEnabled = false;
 				_totalTimeTF.mouseEnabled = false;
 				_subtitlesBack = _interface.subtitlesBack;
-				if (!App.subtitleLoader.noSubsLoaded) {
-					_subtitlesBack.visible = true;
-				} else {
-					_subtitlesBack.visible = false;
-				}
 				_bigPlayBtn = _interface.bigPlayBtn;
 				
 				_sub_ru = _interface.upper_mc.sub_ru;
@@ -358,11 +350,6 @@ package
 				_watermark = _interface.centertext.text;
 				_watermark.text = _watermarkText;
 				_subtitlesBack = _interface.subtitlesBack;
-				if (!App.subtitleLoader.noSubsLoaded) {
-					_subtitlesBack.visible = true;
-				} else {
-					_subtitlesBack.visible = false;
-				}
 				_bigPlayBtn = _interface.bigPlayBtn;
 				
 				_currentTimeTF = _interface.bottom_w_mc.currentTime;
@@ -581,6 +568,7 @@ package
 					break;
 					case "off":
 						App.Subtitles = App.SUBS_OFF;
+						_subtitlesBack.visible = false;
 						_subtitleTextField.visible = false;
 					break;
 				}
@@ -619,9 +607,11 @@ package
 			if (!_subtitlesObject[language]) { 
 				_currentSubtitleArray.length = 0; 
 				_subtitleTextField.visible = false;
+				_subtitlesBack.visible = false;
 				return; 
 			}
 			
+			_subtitlesBack.visible = true;
 			_subtitleTextField.htmlText = "";
 			_subtitleTextField.visible = true;
 			
